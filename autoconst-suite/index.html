@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>AutoConst Enterprise — All 20 Construction AI Skills (100% Local Multi-Agent Workbench)</title>
+
+  <style>
+
+    :root {
+
+      --bg-grid: #f8fafc;
+
+      --border: #e2e8f0;
+
+      --text-main: #0f172a;
+
+      --text-muted: #64748b;
+
+      --purple: #7c3aed; --purple-bg: #f5f3ff;
+
+      --blue: #0284c7;   --blue-bg: #f0f9ff;
+
+      --green: #16a34a;  --green-bg: #f0fdf4;
+
+      --teal: #0d9488;   --teal-bg: #f0fdfa;
+
+      --crit: #dc2626;   --crit-bg: #fef2f2;
+
+      --maj: #d97706;    --maj-bg: #fffbeb;
+
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+
+    body {
+
+      background-color: var(--bg-grid);
+
+      background-image: linear-gradient(to right, #e2e8f050 1px, transparent 1px),
+
+                        linear-gradient(to bottom, #e2e8f050 1px, transparent 1px);
+
+      background-size: 28px 28px;
+
+      color: var(--text-main);
+
+      padding: 22px;
+
+    }
+
+    .container { max-width: 1480px; margin: 0 auto; }
+
+    header {
+
+      display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
+
+      background: #fff; border: 1px solid var(--border); border-radius: 14px;
+
+      padding: 18px 24px; box-shadow: 0 4px 12px rgba(15,23,42,0.03); margin-bottom: 16px;
+
+    }
+
+    .brand h1 { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em; }
+
+    .brand h1 span { color: var(--blue); }
+
+    .brand p { color: var(--text-muted); font-size: 0.85rem; margin-top: 3px; }
+
+    .badge-bar { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    .pill {
+
+      font-size: 0.75rem; font-weight: 600; padding: 6px 12px; border-radius: 999px;
+
+      border: 1px solid var(--border); background: #f8fafc;
+
+    }
+
+    .pill.local { background: var(--green-bg); color: var(--green); border-color: #bbf7d0; }
+
+    .toolbar {
+
+      display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; align-items: center;
+
+      justify-content: space-between;
+
+    }
+
+    .search-box {
+
+      flex: 1; min-width: 260px; padding: 10px 14px; border: 1px solid var(--border);
+
+      border-radius: 10px; font-size: 0.88rem; background: #fff;
+
+    }
+
+    .filter-group { display: flex; gap: 6px; flex-wrap: wrap; }
+
+    .btn {
+
+      padding: 8px 14px; border-radius: 9px; font-size: 0.8rem; font-weight: 600;
+
+      border: 1px solid var(--border); background: #fff; cursor: pointer; transition: 0.15s;
+
+    }
+
+    .btn:hover { background: #f1f5f9; }
+
+    .btn.active { background: var(--text-main); color: #fff; border-color: var(--text-main); }
+
+    .btn.primary { background: var(--blue); color: #fff; border-color: var(--blue); }
+
+    .btn.primary:hover { background: #0369a1; }
+
+    .setup-card {
+
+      background: #fff; border: 2px solid #bae6fd; border-radius: 12px; padding: 12px 18px;
+
+      display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;
+
+      cursor: pointer; transition: 0.15s;
+
+    }
+
+    .setup-card.selected { background: #eff6ff; border-color: var(--blue); }
+
+    .board {
+
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 22px;
+
+    }
+
+    @media (max-width: 1100px) { .board { grid-template-columns: repeat(2, 1fr); } }
+
+    @media (max-width: 640px) { .board { grid-template-columns: 1fr; } }
+
+    .column {
+
+      background: #fff; border: 1px solid var(--border); border-radius: 13px; overflow: hidden;
+
+    }
+
+    .col-header {
+
+      padding: 12px 15px; font-weight: 700; font-size: 0.88rem; display: flex;
+
+      justify-content: space-between; border-bottom: 1px solid var(--border);
+
+    }
+
+    .col-purple .col-header { background: var(--purple-bg); color: var(--purple); }
+
+    .col-blue .col-header { background: var(--blue-bg); color: var(--blue); }
+
+    .col-green .col-header { background: var(--green-bg); color: var(--green); }
+
+    .col-teal .col-header { background: var(--teal-bg); color: var(--teal); }
+
+    .skill-card {
+
+      padding: 11px 14px; border-bottom: 1px solid var(--border); cursor: pointer;
+
+      transition: background 0.12s;
+
+    }
+
+    .skill-card:last-child { border-bottom: none; }
+
+    .skill-card:hover { background: #f8fafc; }
+
+    .skill-card.selected { background: #eff6ff; border-left: 4px solid var(--blue); }
+
+    .skill-title { font-weight: 700; font-size: 0.85rem; display: flex; justify-content: space-between; align-items: center; }
+
+    .skill-desc { color: var(--text-muted); font-size: 0.76rem; margin-top: 3px; }
+
+    .tag-live {
+
+      font-size: 0.62rem; background: #dcfce7; color: #15803d; padding: 2px 6px;
+
+      border-radius: 5px; font-weight: 700;
+
+    }
+
+    .workbench {
+
+      background: #fff; border: 1px solid var(--border); border-radius: 14px;
+
+      padding: 22px; box-shadow: 0 4px 16px rgba(15,23,42,0.04);
+
+    }
+
+    .wb-header {
+
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
+
+      gap: 12px; padding-bottom: 14px; border-bottom: 1px solid var(--border);
+
+    }
+
+    .agent-pipeline {
+
+      display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin: 16px 0;
+
+    }
+
+    @media (max-width: 1024px) { .agent-pipeline { grid-template-columns: repeat(2, 1fr); } }
+
+    .agent-node {
+
+      border: 1px solid #86efac; border-radius: 9px; padding: 9px 11px;
+
+      background: var(--green-bg); font-size: 0.75rem;
+
+    }
+
+    .agent-node.gate { border-color: #fcd34d; background: var(--maj-bg); }
+
+    .agent-node strong { display: block; font-size: 0.78rem; margin-bottom: 2px; }
+
+    .kpi-grid {
+
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 16px;
+
+    }
+
+    @media (max-width: 900px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+
+    .kpi-box {
+
+      border: 1px solid var(--border); border-radius: 10px; padding: 12px; background: #f8fafc;
+
+    }
+
+    .kpi-label { font-size: 0.72rem; color: var(--text-muted); font-weight: 700; }
+
+    .kpi-val { font-size: 1.25rem; font-weight: 800; margin-top: 4px; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+
+    th, td { text-align: left; padding: 10px 11px; border-bottom: 1px solid var(--border); vertical-align: top; }
+
+    th { background: #f1f5f9; font-weight: 700; color: #334155; }
+
+    .sev-badge { display: inline-block; padding: 2px 7px; border-radius: 5px; font-weight: 700; font-size: 0.68rem; margin-top: 3px; }
+
+    .sev-CRITICAL { background: var(--crit-bg); color: var(--crit); border: 1px solid #fecaca; }
+
+    .sev-MAJOR { background: var(--maj-bg); color: var(--maj); border: 1px solid #fde68a; }
+
+    .sev-MINOR { background: var(--blue-bg); color: var(--blue); }
+
+    .sev-PASS { background: var(--green-bg); color: var(--green); border: 1px solid #bbf7d0; }
+
+    .gate-select { padding: 5px 8px; border-radius: 6px; border: 1px solid var(--border); font-size: 0.75rem; font-weight: 600; }
+
+  </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+  <header>
+
+    <div class="brand">
+
+      <h1><span>20 Free Construction Skills</span> — Master Local Multi-Agent Suite</h1>
+
+      <p>Click any of the 20 skills below to inspect its live multi-agent execution, audit findings, and Human Approval Gates.</p>
+
+    </div>
+
+    <div class="badge-bar">
+
+      <span class="pill local">● 20/20 Workflows Live & Local</span>
+
+      <span class="pill">Project: 33/11kV Substation EPC ($4.50M)</span>
+
+      <span class="pill">None of them signs it off. You make the call.</span>
+
+    </div>
+
+  </header>
+
+  <div class="toolbar">
+
+    <input type="text" id="searchInput" class="search-box" placeholder="Filter skills by keyword (e.g., Spec, Takeoff, CAD, Drainage, BIM, IFC, P6, Change Order, CFO)..." oninput="renderBoard()" />
+
+    <div class="filter-group">
+
+      <button class="btn active" onclick="setFilter('ALL', this)">All 20 Skills</button>
+
+      <button class="btn" onclick="setFilter('Before You Bid', this)">Before You Bid (5)</button>
+
+      <button class="btn" onclick="setFilter('Drawings', this)">Drawings (5)</button>
+
+      <button class="btn" onclick="setFilter('The Model', this)">The Model (5)</button>
+
+      <button class="btn" onclick="setFilter('Schedule + Cost', this)">Schedule + Cost (4)</button>
+
+    </div>
+
+  </div>
+
+  <div id="setupBanner" class="setup-card" onclick="selectSkill('project-indexer')">
+
+    <div>
+
+      <strong>00. Project Indexer (Setup Foundation)</strong>
+
+      <span style="color:var(--text-muted); font-size:0.82rem; margin-left:8px;">
+
+        Project context + master document index (4 Volumes Indexed | 2 Missing Sheets Flagged).
+
+      </span>
+
+    </div>
+
+    <span class="tag-live">20/20 ACTIVE</span>
+
+  </div>
+
+  <div class="board" id="skillsBoard"></div>
+
+  <div class="workbench">
+
+    <div class="wb-header">
+
+      <div>
+
+        <h2 id="wbTitle" style="font-size:1.18rem;"></h2>
+
+        <p id="wbSub" style="color:var(--text-muted); font-size:0.82rem; margin-top:3px;"></p>
+
+      </div>
+
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+
+        <button class="btn primary" onclick="approveCurrentSkill()">✓ Approve Current Skill Gates</button>
+
+        <button class="btn" onclick="exportCurrentCSV()">⬇ Export Skill CSV</button>
+
+        <button class="btn" onclick="exportAll20CSV()">⬇ Export All 20 Skills Master CSV</button>
+
+        <button class="btn" onclick="exportCurrentMarkdown()">⬇ Export Executive Markdown</button>
+
+      </div>
+
+    </div>
+
+    <div class="agent-pipeline">
+
+      <div class="agent-node"><strong>1. Coordinator</strong><span id="agCoord"></span></div>
+
+      <div class="agent-node"><strong>2. Doc Extractor</strong>Normalized Inputs</div>
+
+      <div class="agent-node"><strong id="agDomA">3. Domain Agent A</strong>Source A Parsed</div>
+
+      <div class="agent-node"><strong id="agDomB">4. Domain Agent B</strong>Source B Parsed</div>
+
+      <div class="agent-node"><strong>5. Reconciliation</strong><span id="agRec"></span></div>
+
+      <div class="agent-node"><strong>6. QA Verifier</strong>100% Citation Trace</div>
+
+      <div class="agent-node gate"><strong>7. Human Gate</strong><span id="agGate"></span></div>
+
+    </div>
+
+    <div class="kpi-grid">
+
+      <div class="kpi-box"><div class="kpi-label">FINDINGS / CHECKS</div><div class="kpi-val" id="kpiCount"></div></div>
+
+      <div class="kpi-box"><div class="kpi-label">CRITICAL / MAJOR</div><div class="kpi-val" style="color:var(--crit);" id="kpiSev"></div></div>
+
+      <div class="kpi-box"><div class="kpi-label">COST EXPOSURE / VALUE</div><div class="kpi-val" id="kpiCost"></div></div>
+
+      <div class="kpi-box"><div class="kpi-label">SCHEDULE IMPACT</div><div class="kpi-val" id="kpiDays"></div></div>
+
+      <div class="kpi-box"><div class="kpi-label">HUMAN SIGN-OFF STATUS</div><div class="kpi-val" id="kpiGate"></div></div>
+
+    </div>
+
+    <div style="overflow-x:auto;">
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>ID & Severity</th>
+
+            <th>Element / System / Activity</th>
+
+            <th id="thSourceA">Source A</th>
+
+            <th id="thSourceB">Source B</th>
+
+            <th>Variance / Impact</th>
+
+            <th>Recommended Action / Draft RFI</th>
+
+            <th>Human Approval Gate</th>
+
+          </tr>
+
+        </thead>
+
+        <tbody id="findingsBody"></tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+const DB = {
+
+  "project-indexer": {
+
+    num:"00", name:"Project Indexer", cat:"Setup", desc:"Project context + document index.",
+
+    colA:"Package Register", colB:"Folder Audit & Status",
+
+    rows:[
+
+      {id:"IDX-001", sev:"PASS", el:"Vol-I Commercial & FIDIC Conditions", aRef:"DOC-COM-001 Rev 0", aVal:"Signed PDF (142 Pages)", bRef:"/01_Commercial", bVal:"Indexed & Complete", stat:"MATCH (100%)", cost:0, days:0, act:"Baseline commercial terms locked for Spec Reviewer.", gate:"APPROVED"},
+
+      {id:"IDX-002", sev:"PASS", el:"Vol-II Technical Specification (33/11kV)", aRef:"SPEC-EL-33KV-001", aVal:"218 Pages Searchable", bRef:"/02_Specs", bVal:"Indexed & Complete", stat:"MATCH (100%)", cost:0, days:0, act:"Routed to Spec Index & Spec vs Drawings Check.", gate:"APPROVED"},
+
+      {id:"IDX-003", sev:"MAJOR", el:"Vol-III Tender Drawing Set (24 Sheets)", aRef:"DWG-TRANSMITTAL-01", aVal:"24 Drawings Listed", bRef:"/03_Drawings", bVal:"22 Present (Missing E-104 & C-202)", stat:"2 MISSING SHEETS", cost:15000, days:5, act:"Issue pre-bid transmittal discrepancy notice for missing Earthing & Drainage sheets.", gate:"HOLD_FOR_LEAD_ENGINEER"},
+
+      {id:"IDX-004", sev:"PASS", el:"Vol-IV Contract BOQ & P6 Baseline XER", aRef:"BOQ-REV0 + SUB-BL.xer", aVal:"$4.50M / 412 Activities", bRef:"/04_Controls", bVal:"Indexed & Reconciled", stat:"MATCH (100%)", cost:0, days:0, act:"Routed to P6 Cost Loader & Schedule Narrative.", gate:"APPROVED"}
+
+    ]
+
+  },
+
+  "spec-reviewer": {
+
+    num:"01", name:"Spec Reviewer", cat:"Before You Bid", desc:"Bid-killers + hidden costs.",
+
+    colA:"Specification Clause", colB:"Standard EPC Baseline",
+
+    rows:[
+
+      {id:"SPR-001", sev:"CRITICAL", el:"Liquidated Damages & Consequential Loss", aRef:"Particular Cond Cl. 8.7", aVal:"1.5%/wk up to 15% cap; Uncapped consequential outage loss", bRef:"FIDIC Standard Baseline", bVal:"0.5%/wk up to 10% cap; Mutual consequential exclusion", stat:"BID-KILLER TRAP", cost:450000, days:0, act:"Qualify cap at 10% and enforce Sub-Clause 17.6 exclusion of consequential damages.", gate:"HOLD_FOR_LEAD_ENGINEER"},
+
+      {id:"SPR-002", sev:"CRITICAL", el:"Sole-Source Protection Relay Mandate", aRef:"Spec Sec 07.1.2 (P.108)", aVal:"Single-OEM proprietary ring with zero 'or equal'", bRef:"Competitive Multi-Vendor", bVal:"Minimum 3 Approved Tier-1 Makes", stat:"SOLE-SOURCE TRAP", cost:68000, days:21, act:"Submit RFI requesting approved equivalent IEC 61850 Tier-1 makes.", gate:"HOLD_FOR_LEAD_ENGINEER"},
+
+      {id:"SPR-003", sev:"MAJOR", el:"Employer Overseas FAT Travel Expenses", aRef:"Spec Sec 01.9.4 (P.24)", aVal:"Contractor pays flights/5-star hotel for 6 Employer staff x 10d", bRef:"Standard FAT Clause", bVal:"Employer bears own travel costs", stat:"HIDDEN COST ($42k)", cost:42000, days:0, act:"Include $42,000 provisional allowance in Preliminaries BOQ.", gate:"APPROVED"}
+
+    ]
+
+  },
+
+  "spec-index": {
+
+    num:"02", name:"Spec Index", cat:"Before You Bid", desc:"A searchable spec database.",
+
+    colA:"CSI / Package Section", colB:"Standards & Required Submittals",
+
+    rows:[
+
+      {id:"SPI-001", sev:"PASS", el:"Div 26 05 13 — MV Power Cables (33kV/11kV)", aRef:"Spec Sec 04 (P.38-61)", aVal:"XLPE Insulated Armored Cables", bRef:"IEC 60502-2 / IS 7098-2", bVal:"Type Tests (<5 yrs), Ampacity & Pulling Calc, Drum Schedule", stat:"6 SUBMITTALS", cost:0, days:0, act:"Linked to Electrical Takeoff & Spec Compliance.", gate:"APPROVED"},
+
+      {id:"SPI-002", sev:"PASS", el:"Div 26 12 19 — 15/20 MVA Power Transformers", aRef:"Spec Sec 06 (P.85-106)", aVal:"33/11kV ONAN/ONAF with OLTC", bRef:"IEC 60076 / IEEE C57.12", bVal:"GA, Losses Guarantee, SC Calc, Oil DGA, CT Curves", stat:"8 SUBMITTALS", cost:0, days:0, act:"Linked to Cut Sheet -> Revit Family & Spec Compliance.", gate:"APPROVED"},
+
+      {id:"SPI-003", sev:"MINOR", el:"Div 26 13 26 — 33kV Indoor GIS Switchgear", aRef:"Spec Sec 05 (P.62-84)", aVal:"SF6/Clean-Air GIS Panels", bRef:"IEC 62271-200", bVal:"SLD, Interlock Table, IAC AFLR 31.5kA 1s Report", stat:"OBSOLETE ANNEX REF", cost:0, days:0, act:"Annex B cites superseded IEC 60298; log minor administrative RFI.", gate:"APPROVED"}
+
+    ]
+
+  },
+
+  "spec-vs-drawings": {
+
+    num:"03", name:"Spec vs Drawings Check", cat:"Before You Bid", desc:"Spec–drawing conflicts.",
+
+    colA:"Specification Requirement", colB:"Drawing Shown Value",
+
+    rows:[
+
+      {id:"DSC-001", sev:"CRITICAL", el:"33kV Underground Power Feeder Cable", aRef:"Sec 04.2.1 (P.42)", aVal:"3C x 400 sq.mm Copper (Cu), XLPE, Al Sheath", bRef:"DWG-EL-SLD-001 (Grid B4)", bVal:"3C x 400 sq.mm Aluminium (Al), XLPE, SWA", stat:"GOLD_PLATING_SPEC", cost:48500, days:14, act:"RFI-001: Confirm Copper (per Spec) vs Aluminium (per SLD) for commercial pricing.", gate:"HOLD_FOR_LEAD_ENGINEER"},
+
+      {id:"DSC-002", sev:"CRITICAL", el:"33kV Indoor GIS Switchgear Fault Rating", aRef:"Sec 05.1.4 (P.68)", aVal:"31.5 kA for 3 seconds", bRef:"DWG-EL-SLD-001 (Grid D2)", bVal:"25 kA for 1 second", stat:"DIRECT_CONFLICT", cost:62000, days:28, act:"RFI-002: Confirm governing short-circuit withstand rating (31.5kA/3s vs 25kA/1s).", gate:"HOLD_FOR_LEAD_ENGINEER"},
+
+      {id:"DSC-003", sev:"MAJOR", el:"15/20 MVA Transformer Neutral Earthing", aRef:"Sec 06.3.2 (P.91)", aVal:"Dyn11 with 11kV NGR (400A, 10s)", bRef:"DWG-EL-SLD-002 (Grid C6)", bVal:"Dyn11 Solidly Earthed (No NGR on SLD)", stat:"DIRECT_CONFLICT", cost:19500, days:10, act:"RFI-003: Clarify whether 11kV NGR cubicles are required.", gate:"APPROVED"},
+
+      {id:"DSC-004", sev:"MAJOR", el:"Numerical Protection Relay Comms", aRef:"Sec 07.4.1 (P.112)", aVal:"IEC 61850 Ed.2 Dual-Port PRP Fiber Ring", bRef:"DWG-EL-PROT-004 (Note 7)", bVal:"RS-485 Modbus RTU Daisy-Chain Copper", stat:"DIRECT_CONFLICT", cost:14200, days:7, act:"RFI-004: Confirm fiber Ethernet ring switches vs RS-485 serial bus.", gate:"APPROVED"},
+
+      {id:"DSC-005", sev:"MAJOR", el:"Outdoor Cable Containment Ladder", aRef:"Sec 08.1.9 (P.130)", aVal:"SS316L Stainless Steel Ladder Tray", bRef:"DWG-EL-GA-009 (Sec A-A)", bVal:"Hot-Dip Galvanized Mild Steel (HDGI)", stat:"GOLD_PLATING_SPEC", cost:34000, days:12, act:"RFI-005: Confirm if HDGI tray is acceptable in non-corrosive area.", gate:"APPROVED"},
+
+      {id:"DSC-006", sev:"MAJOR", el:"Main Substation Buried Earth Grid", aRef:"Sec 09.2.1 (P.145)", aVal:"75 x 10 mm Annealed Tinned Copper Tape", bRef:"[MISSING SHEET E-104]", bVal:"Omitted from Tender Drawing Set", stat:"OMISSION_ON_DRAWING", cost:29800, days:5, act:"RFI-006: Issue missing Earthing Layout E-104 and confirm Copper vs GI strip.", gate:"APPROVED"}
+
+    ]
+
+  },
+
+  "finishes-vs-spec": {
+
+    num:"04", name:"Finishes vs Spec Check", cat:"Before You Bid", desc:"Finishes checked against specs.",
+
+    colA:"Room Finish Schedule (DWG-AR-401)", colB:"Div 09 Finish Specification",
+
+    rows:[
+
+      {id:"FIN-001", sev:"MAJOR", el:"Control & Relay Room Raised Floor (FL-04)", aRef:"DWG-AR-401 Rm 102/103", aVal:"600x600 Heavy-Duty Raised Floor (450mm FFH, 12kN load)", bRef:"Spec Sec 09 69 00", bVal:"300mm FFH, 8kN point load", stat:"LOAD/FFH MISMATCH", cost:22400, days:7, act:"RFI: GIS panels require 12kN load & 450mm plenum; update Spec Sec 09 69 00.", gate:"HOLD_FOR_LEAD_ENGINEER"},
+
+      {id:"FIN-002", sev:"MAJOR", el:"Battery Room Acid-Resistant Tile (FL-07)", aRef:"DWG-AR-401 Rm 105", aVal:"Acid-Proof Vitrified Tile per IS 4457 + Epoxy Furan Mortar", bRef:"[MISSING SPEC SECTION]", bVal:"Omitted from Div 09 Finishes", stat:"ORPHAN FINISH CODE", cost:11800, days:4, act:"Request Div 09 specification section for chemical/acid-resistant tiling.", gate:"APPROVED"},
+
+      {id:"FIN-003", sev:"MINOR", el:"Transformer Blast Wall Coating (PT-09)", aRef:"DWG-AR-401 Ext Bay", aVal:"Standard Exterior Acrylic Emulsion", bRef:"Spec Sec 09 96 43", bVal:"2-Hr Hydrocarbon Fire-Retardant Coating", stat:"SPEC EXCEEDS DWG", cost:8900, days:3, act:"Align Room Finish Schedule code PT-09 with fire-retardant spec.", gate:"APPROVED"}
+
+    ]
+
+  },
+
+  "bid-hunter": {
+
+    num:"05", name:"Bid Hunter (SAM.gov)", cat:"Before You Bid", desc:"Contract matches + bid drafts.",
+
+    colA:"Solicitation Requirements", colB:"Capability Match & Go/No-Go Score",
+
+    rows:[
+
+      {id:"BID-001", sev:"PASS", el:"SOL-2026-IND-33KV: 33/11kV GIS Substation EPC", aRef:"NAICS 237130 ($4.8M)", aVal:"Deadline: 28d | Requires 2x 33kV Substations in 7 yrs", bRef:"Company Profile", bVal:"3x 33kV/132kV Substations Completed; HV Relay Team Ready", stat:"GO SCORE: 92/100", cost:4800000, days:0, act:"PURSUE: Generate Technical Approach draft and submit 6 pre-bid RFIs.", gate:"APPROVED"},
+
+      {id:"BID-002", sev:"PASS", el:"SOL-2026-PORT-MES: Port Shore Power MV Upgrade", aRef:"NAICS 238210 ($3.2M)", aVal:"Deadline: 35d | Requires IEC 60092 MV Switchgear", bRef:"Company Profile", bVal:"Strong MV Protection & Commissioning fit", stat:"GO SCORE: 84/100", cost:3200000, days:0, act:"PURSUE: Partner with marine civil sub and bid Electrical/Controls package.", gate:"APPROVED"},
+
+      {id:"BID-003", sev:"MAJOR", el:"SOL-2026-400KV-TL: 400kV Transmission Line (180km)", aRef:"NAICS 237130 ($42.0M)", aVal:"Requires $10M Bond + Lattice Tower Factory", bRef:"Company Profile", bVal:"Outside core industrial substation scope", stat:"NO-GO: 31/100", cost:0, days:0, act:"DECLINE: Conserve bidding bandwidth for high-margin MV/HV substation tenders.", gate:"APPROVED"}
+
+    ]
+
+  },
+
+  "drawing-index": {
+
+    num:"06", name:"Drawing Index", cat:"Drawings", desc:"Searchable drawing database.",
+
+    colA:"Title Block Metadata", colB:"Transmittal & Sequence Check",
+
+    rows:[
+
+      {id:"DRI-001", sev:"PASS", el:"DWG-EL-SLD-001 — 33/11kV Master Single Line Diagram", aRef:"Electrical | Scale: NTS", aVal:"Rev B | 2026-09-15 | Issued for Tender", bRef:"Transmittal Line 01", bVal:"Exact Match", stat:"VERIFIED", cost:0, days:0, act:"Indexed in searchable drawing register.", gate:"APPROVED"},
+
+      {id:"DRI-002", sev:"MAJOR", el:"DWG-EL-GA-009 — Substation Equipment GA & Sections", aRef:"Electrical | Scale: 1:50", aVal:"Drawing Title Block shows Rev C (2026-09-28)", bRef:"Transmittal Line 09", bVal:"Cover sheet lists Rev B (2026-08-19)", stat:"REVISION MISMATCH", cost:0, days:2, act:"Confirm Rev C is governing contractual revision.", gate:"HOLD_FOR_LEAD_ENGINEER"},
+
+      {id:"DRI-003", sev:"CRITICAL", el:"DWG-EL-EAR-104 — Main Earthing & Lightning Layout", aRef:"Electrical | Scale: 1:100", aVal:"Referenced on SLD Note 11 & Transmittal Line 14", bRef:"PDF Folder Scan", bVal:"File missing from tender download zip", stat:"MISSING SHEET", cost:29800, days:5, act:"Request immediate issuance of missing sheet DWG-EL-EAR-104.", gate:"HOLD_FOR_LEAD_ENGINEER"}
+
+    ]
+
+  },
+
+  "electrical-takeoff": {
+
+    num:"07", name:"Electrical Takeoff", cat:"Drawings", desc:"Two-way counts + drawing proof.",
+
+    colA:"Path A: SLD & Cable Schedule", colB:"Path B: Floor Plan & Trench Layout",
+
+    rows:[
+
+      {id:"ETO-001", sev:"PASS", el:"33kV GIS Indoor Switchgear Panels (1250A, 31.5kA)", aRef:"DWG-EL-SLD-001 Rev B", aVal:"9 Panels (2 Incomer, 1 Bus Coupler, 6 Outgoing)", bRef:"DWG-EL-GA-009 (Rm 101)", bVal:"9 Bays Counted on Layout (7,200 x 1,450mm)", stat:"EXACT MATCH (9 Nos)", cost:0, days:0, act:"Lock 9 GIS Panels in BOQ.", gate:"APPROVED"},
+
+      {id:"ETO-002", sev:"CRITICAL", el:"11kV XLPE Outgoing Feeder Cables (3C x 300 sq.mm Al)", aRef:"DWG-EL-CBL-003 Schedule", aVal:"14 Circuits Scheduled = 2,850 m", bRef:"DWG-EL-RTG-005 Plan", bVal:"16 Circuits on Plan + risers + 10% slack = 3,597 m", stat:"+747 m (+26.2%)", cost:38900, days:6, act:"Schedule omits 2 spare motor feeders (FDR-15/16) & vertical drops; adopt 3,600m.", gate:"HOLD_FOR_LEAD_ENGINEER"},
+
+      {id:"ETO-003", sev:"MAJOR", el:"Substation Building 120W High-Bay & Emergency Lights", aRef:"Luminaire Schedule", aVal:"48 High-Bay + 18 Emergency Bulkheads", bRef:"DWG-EL-LTG-02 Plan", bVal:"54 High-Bay + 22 Bulkheads counted on grids A1-F6", stat:"+10 LUMINAIRES", cost:4600, days:0, act:"Adopt layout count (54 + 22) and flag BOQ quantity adjustment.", gate:"APPROVED"}
+
+    ]
+
+  },
+
+  "cad-to-excel": {
+
+    num:"08", name:"CAD to Excel", cat:"Drawings", desc:"CAD objects → Excel takeoff.",
+
+    colA:"DXF Layer & Block Entities", colB:"Cleaned Excel BOQ Table",
+
+    rows:[
+
+      {id:"CAD-001", sev:"PASS", el:"Blocks `BLK_HV_CB_33KV` & `BLK_CT_33KV` (`E-POWR-EQPM`)", aRef:"Substation_GA.dxf", aVal:"412 Block Inserts with AutoCAD formatting noise", bRef:"Workbook `01_HV_Equip`", bVal:"9x 33kV Breakers, 27x Protection CTs, 9x Line VTs", stat:"100% NORMALIZED", cost:0, days:0, act:"Exported clean attribute table to Excel.", gate:"APPROVED"},
+
+      {id:"CAD-002", sev:"MAJOR", el:"Containment Polylines (`E-TRAY-600W` & `E-TRAY-300W`)", aRef:"Cable_Routing.dxf", aVal:"Raw 2D Polyline Sum = 640.5m (includes 68m duplicate overlaps)", bRef:"Workbook `02_Trays`", bVal:"De-duplicated 572.5m + 54.0m vertical risers = 626.5m", stat:"DEDUPED 68m OVERLAP", cost:6120, days:0, act:"Eliminated 68m double-drawn CAD lines and added 18 vertical riser drops.", gate:"APPROVED"}
+
+    ]
+
+  },
+
+  "drainage-schedule": {
+
+    num:"09", name:"Drainage Schedule", cat:"Drawings", desc:"Drainage PDF → checked Excel.",
+
+    colA:"Stated Manhole & Pipe Schedule", colB:"Hydraulic Slope & Cover Check",
+
+    rows:[
+
+      {id:"DRN-001", sev:"CRITICAL", el:"Stormwater Run SW-04 (MH-04 to MH-05, L=45m, 300mm)", aRef:"DWG-CV-DRN-002", aVal:"Up IL = +98.420m | Down IL = +98.510m | Stated 1:500", bRef:"Slope Formula Check", bVal:"Fall = -0.090m (BACKFALL UPWARDS BY 90mm!)", stat:"BACKFALL ERROR", cost:14500, days:5, act:"CRITICAL: Down IL at MH-05 must be +98.330m to achieve 1:500 gravity slope.", gate:"HOLD_FOR_LEAD_ENGINEER"},
+
+      {id:"DRN-002", sev:"MAJOR", el:"Transformer Oil Containment Drain OD-02 (Road Crossing)", aRef:"DWG-CV-DRN-002 Profile", aVal:"GL = +100.00m | Pipe Crown = +99.55m", bRef:"Structural Cover Check", bVal:"Cover = 0.45m (< 0.90m minimum under heavy crane road)", stat:"SHALLOW COVER (0.45m)", cost:6800, days:2, act:"Add Class A150 RC concrete surround encasement over 18m road crossing.", gate:"APPROVED"}
+
+    ]
+
+  },
+
+  "pdf-markup": {
+
+    num:"10", name:"PDF Markup", cat:"Drawings", desc:"Stamps + bulk drawing edits.",
+
+    colA:"Target Sheet & Bounding Box", colB:"PyMuPDF Automated Stamp Action",
+
+    rows:[
+
+      {id:"MRK-001", sev:"PASS", el:"DWG-EL-SLD-001.pdf (Page 1, Box [410, 220, 580, 290])", aRef:"Grid B4 & D2 Conflicts", aVal:"Red Cloud + Callout `HOLD: RFI-001 / RFI-002`", bRef:"PyMuPDF Script", bVal:"Applied vector revision cloud + callout annotation layer", stat:"APPLIED", cost:0, days:0, act:"Generated non-destructive redline PDF.", gate:"APPROVED"},
+
+      {id:"MRK-002", sev:"PASS", el:"All 22 Tender Drawings (Title Block [1020, 740, 1160, 790])", aRef:"Batch Control Stamp", aVal:"Stamp: `TENDER REVIEW SET - CHECKED BY AUTOCONST`", bRef:"PyMuPDF Script", bVal:"22/22 PDF sheets batch-stamped in 0.4 seconds", stat:"22/22 STAMPED", cost:0, days:0, act:"Ready for estimating team distribution.", gate:"APPROVED"}
+
+    ]
+
+  },
+
+  "bim-scorecard": {
+
+    num:"11", name:"BIM Scorecard", cat:"The Model", desc:"Revit health grade + audit.",
+
+    colA:"Revit Model Audit Metric", colB:"BEP Benchmark & Health Score",
+
+    rows:[
+
+      {id:"BIM-001", sev:"MAJOR", el:"Model Warnings & Duplicate Instances (`SUB_EL_R24.rvt`)", aRef:"684 Warnings / 42.1k Elements", aVal:"16.2 Warnings/1k elements (38 duplicate cable tray fittings)", bRef:"Target < 2.0 / 1k Elements", bVal:"Score: 78/100 (Grade B-) | 38 identical instances in same place", stat:"GRADE: 78/100 (B-)", cost:0, days:2, act:"Run PyRevit 'Purge Duplicate Instances' on 38 overlapping fittings.", gate:"APPROVED"},
+
+      {id:"BIM-002", sev:"CRITICAL", el:"Imported & Exploded CAD DWGs in Revit Model", aRef:"File Size: 418 MB", aVal:"7 Imported DWGs + 2 Exploded CAD blocks polluting styles", bRef:"BEP Rule: 0 Imports", bVal:"Heavy sync penalty; violates BIM Execution Plan Cl. 4.2", stat:"7 CAD IMPORTS", cost:0, days:3, act:"Delete imported DWGs and replace with `Link CAD` to reduce file size by ~110 MB.", gate:"HOLD_FOR_LEAD_ENGINEER"}
+
+    ]
+
+  },
+
+  "spec-compliance": {
+
+    num:"12", name:"Spec Compliance", cat:"The Model", desc:"PASS / FAIL / MISSING checks.",
+
+    colA:"Project Specification Clause", colB:"Submittal / BIM Schedule Value",
+
+    rows:[
+
+      {id:"CMP-001", sev:"PASS", el:"33kV Protection Relay Make & IEC 61850 GOOSE Trip", aRef:"Spec Sec 07.2 (<3ms trip)", aVal:"MiCOM P14x/P64x with dual fiber & <3ms GOOSE", bRef:"Submittal SUB-EL-014", bVal:"MiCOM Agile tested @ 2.1ms GOOSE transfer time", stat:"PASS", cost:0, days:0, act:"Approve submittal Code 1.", gate:"APPROVED"},
+
+      {id:"CMP-002", sev:"CRITICAL", el:"15/20 MVA Transformer Guaranteed Losses @ 75°C", aRef:"Spec Sec 06.1.8", aVal:"Max No-Load <= 11.5 kW | Max Load Loss <= 78.0 kW", bRef:"Vendor Submittal VND-TR-02", bVal:"Offered No-Load = 14.2 kW | Load Loss = 89.5 kW", stat:"FAIL (LOSS PENALTY)", cost:54000, days:14, act:"REJECT: Loss capitalization penalty ($4k/kW) equals $56,800 commercial deduction.", gate:"HOLD_FOR_LEAD_ENGINEER"},
+
+      {id:"CMP-003", sev:"MAJOR", el:"33kV GIS Internal Arc Classification (IAC)", aRef:"Spec Sec 05.3.1", aVal:"IAC AFLR 31.5 kA for 1.0s (Front, Lateral & Rear)", bRef:"Vendor Submittal VND-GIS-01", bVal:"Test report covers AFL only (Rear 'R' protection missing)", stat:"MISSING REAR CERT", cost:18000, days:10, act:"Hold submittal until OEM provides full AFLR 31.5kA 1s type test certificate.", gate:"HOLD_FOR_LEAD_ENGINEER"}
+
+    ]
+
+  },
+
+  "ifc-to-boq": {
+
+    num:"13", name:"IFC to Priced BOQ", cat:"The Model", desc:"Priced BOQ with your rates.",
+
+    colA:"IFC Class & Base Quantities", colB:"Unit Rate & Priced Total",
+
+    rows:[
+
+      {id:"IFC-001", sev:"PASS", el:"`IfcFooting` & `IfcSlab` (Substation Bunds & Basement)", aRef:"SUB_STR_IFC4.ifc (46 Objs)", aVal:"Net 842.0 m3 C35/45 Concrete + 5% Waste = 884.1 m3", bRef:"Composite Rate: $185/m3", bVal:"Material ($135) + Labor ($32) + Plant ($18) x 884.1 m3", stat:"$163,558.50", cost:163559, days:0, act:"Exported priced line to BOQ Division 03.", gate:"APPROVED"},
+
+      {id:"IFC-002", sev:"PASS", el:"`IfcCableCarrierSegment` (Heavy-Duty Perforated/Ladder Tray)", aRef:"SUB_MEP_IFC4.ifc (218 Objs)", aVal:"Net 612.0 m + 7.5% Fittings/Waste = 657.9 m", bRef:"Composite Rate: $68/m", bVal:"Material ($46) + Supports ($10) + Labor ($12) x 657.9 m", stat:"$44,737.20", cost:44737, days:0, act:"Exported priced line to BOQ Division 26.", gate:"APPROVED"},
+
+      {id:"IFC-003", sev:"MAJOR", el:"`IfcElectricDistributionBoard` (110V DC Battery Banks)", aRef:"SUB_MEP_IFC4.ifc (4 Objs)", aVal:"4 Units modeled; `Pset_ElectricalDeviceCommon` Ah rating NULL", bRef:"Provisional Rate: $18.5k/ea", bVal:"Unmapped Ah capacity in IFC; applied $74,000 provisional sum", stat:"$74,000 (PROV)", cost:74000, days:0, act:"Confirm 300Ah Ni-Cd vs VRLA battery spec before locking rate.", gate:"HOLD_FOR_LEAD_ENGINEER"}
+
+    ]
+
+  },
+
+  "p6-to-4d-revit": {
+
+    num:"14", name:"P6 → 4D Revit", cat:"The Model", desc:"Schedule → linked 3D elements.",
+
+    colA:"Primavera P6 Activity & Dates", colB:"Revit 3D Selection Filter",
+
+    rows:[
+
+      {id:"4D-001", sev:"PASS", el:"Act `SUB-CIV-1040`: GIS Basement & Cable Trench Concrete", aRef:"2026-11-10 to 2026-12-08", aVal:"Task Type: Construct | WBS: 02.Civil", bRef:"Category=Walls/Floors & B1", bVal:"124 Revit 3D Elements auto-linked (`4D_Activity_ID`)", stat:"124 LINKED", cost:0, days:0, act:"Exported Navisworks TimeLiner synchronization rule.", gate:"APPROVED"},
+
+      {id:"4D-002", sev:"PASS", el:"Act `SUB-EL-2110`: 33kV GIS Erection & Busbar Torqueing", aRef:"2027-02-15 to 2027-03-12", aVal:"Task Type: Construct | WBS: 04.Electrical", bRef:"Category=Electrical Equip", bVal:"9 GIS Bays + Busbar Trunking linked", stat:"9 BAYS LINKED", cost:0, days:0, act:"4D crane sequence verified clash-free.", gate:"APPROVED"},
+
+      {id:"4D-003", sev:"MAJOR", el:"Orphan 3D Elements with No P6 Schedule Activity", aRef:"Revit Model Audit", aVal:"18 HV Lightning Masts & 4 CCTV Poles unlinked", bRef:"P6 Schedule `SUB-BL.xer`", bVal:"Outdoor mast erection activity omitted from P6 WBS", stat:"22 ORPHAN 3D OBJS", cost:0, days:6, act:"Add Activity `SUB-EL-2450` to P6 baseline schedule.", gate:"HOLD_FOR_LEAD_ENGINEER"}
+
+    ]
+
+  },
+
+  "cut-sheet-to-revit": {
+
+    num:"15", name:"Cut Sheet → Revit Family", cat:"The Model", desc:"Manufacturer PDF → Revit family.",
+
+    colA:"Manufacturer PDF Datasheet", colB:"Revit Family Type Catalog (`.txt`)",
+
+    rows:[
+
+      {id:"CUT-001", sev:"PASS", el:"ABB ZX2 33kV GIS Single Busbar Bay (1250A, 31.5kA)", aRef:"ABB_ZX2_Catalog_p18.pdf", aVal:"W: 800mm | D: 1450mm | H: 2300mm | Mass: 1,150 kg", bRef:"`ABB_ZX2_33kV.txt`", bVal:"`##Width##LENGTH##MILLIMETERS`=800, `SC_Rating`=31.5kA", stat:"CATALOG GENERATED", cost:0, days:0, act:"Ready for direct Revit Family Type import.", gate:"APPROVED"},
+
+      {id:"CUT-002", sev:"PASS", el:"15/20 MVA 33/11kV ONAN/ONAF Power Transformer", aRef:"TR_15MVA_GA.pdf", aVal:"L: 5200mm | W: 3650mm | H: 4150mm | Mass: 41,500 kg", bRef:"`PWR_TR_15_20MVA.txt`", bVal:"COBie + MEP connectors (`HeatRejection=92kW`, `Voltage=33kV`)", stat:"COBIE + 3D READY", cost:0, days:0, act:"Includes radiator pull-out clearance zone geometry.", gate:"APPROVED"}
+
+    ]
+
+  },
+
+  "p6-cost-loader": {
+
+    num:"16", name:"P6 Cost Loader", cat:"Schedule + Cost", desc:"BOQ costs → P6 activities.",
+
+    colA:"Contract BOQ Package Value", colB:"P6 Resource / Expense Allocation",
+
+    rows:[
+
+      {id:"PCL-001", sev:"PASS", el:"WBS 01 — Preliminaries, Design, Bonds & Mobilization", aRef:"BOQ Div 01: $380,000.00", aVal:"6 LOE & Engineering Milestones", bRef:"P6 `TASKRSRC` Table", bVal:"Allocated: $380,000.00 | Variance: $0.00 (8.44%)", stat:"$0.00 VARIANCE", cost:380000, days:0, act:"Balanced front-end cash flow.", gate:"APPROVED"},
+
+      {id:"PCL-002", sev:"PASS", el:"WBS 02/03 — Substation Civil, Bunds & Control Building", aRef:"BOQ Div 02-09: $1,120,000.00", aVal:"48 Civil Activities weighted by m3 & m2", bRef:"P6 `TASKRSRC` Table", bVal:"Allocated: $1,120,000.00 | Variance: $0.00 (24.89%)", stat:"$0.00 VARIANCE", cost:1120000, days:0, act:"Mapped to Cost Account `CA-CIV-100`.", gate:"APPROVED"},
+
+      {id:"PCL-003", sev:"PASS", el:"WBS 04/05 — 33/11kV Switchgear, Transformers, Cables & SAT", aRef:"BOQ Div 26: $3,000,000.00", aVal:"15% FAT / 65% Delivery / 15% Erection / 5% Testing", bRef:"P6 `TASKRSRC` Table", bVal:"Allocated: $3,000,000.00 | Total Contract = $4,500,000.00", stat:"100% RECONCILED", cost:3000000, days:0, act:"Ready for one-click Primavera P6 import.", gate:"APPROVED"}
+
+    ]
+
+  },
+
+  "schedule-narrative": {
+
+    num:"17", name:"Monthly Schedule Narrative", cat:"Schedule + Cost", desc:"Two XERs → checked narrative.",
+
+    colA:"Previous Update (`M04_Aug2026.xer`)", colB:"Current Update (`M05_Sep2026.xer`)",
+
+    rows:[
+
+      {id:"NAR-001", sev:"CRITICAL", el:"Terminal Milestone `MS-100: Substation Energization`", aRef:"Forecast: 2027-05-15 (TF +4d)", aVal:"Critical Path: Control Building Roof Slab", bRef:"Forecast: 2027-05-29 (TF -10d)", bVal:"Critical Path shifted to `33kV GIS Port Customs Delay`", stat:"-14d FLOAT LOSS", cost:45000, days:14, act:"Deploy 2-shift GIS erection crew & air-freight relay marshalling kiosks to recover 10d.", gate:"HOLD_FOR_LEAD_ENGINEER"},
+
+      {id:"NAR-002", sev:"MAJOR", el:"DCMA 14-Point Schedule Integrity & Logic Audit", aRef:"Baseline `TASKPRED` Table", aVal:"FS 0d lag between Trench Civil and Cable Pulling", bRef:"Current `M05_Sep2026.xer`", bVal:"Modified to SS+5d with -8d negative lead + 3 Hard Constraints", stat:"3 HARD CONSTRAINTS", cost:0, days:8, act:"Remove unauthorized negative lag and hard constraints per DCMA 14-point standard.", gate:"HOLD_FOR_LEAD_ENGINEER"}
+
+    ]
+
+  },
+
+  "change-order-audit": {
+
+    num:"18", name:"Change Order Audit", cat:"Schedule + Cost", desc:"Rates, markups + quantities.",
+
+    colA:"Subcontractor Claim (VO-007)", colB:"Forensic Contract & Star-Rate Audit",
+
+    rows:[
+
+      {id:"COA-001", sev:"CRITICAL", el:"VO-007 Line 1: Hard Rock Excavation in 33kV Trench", aRef:"Claimed: $84,500.00", aVal:"650 m3 @ $130.00/m3 (Unverified Star Rate)", bRef:"Audited: $27,880.00", bVal:"Joint Survey #19 = 410 m3; Contract BOQ Rate 2.04 = $68.00/m3", stat:"-$56,620 SAVED", cost:56620, days:0, act:"Enforce Contract BOQ rate ($68/m3) and signed joint survey quantity (410 m3).", gate:"HOLD_FOR_LEAD_ENGINEER"},
+
+      {id:"COA-002", sev:"MAJOR", el:"VO-007 Line 2: Extra 4x150mm HDPE Road Crossing Ducts", aRef:"Claimed: $31,200.00", aVal:"120 m @ $185/m + 25% OH&P Markup", bRef:"Audited: $15,267.84", bVal:"Redline = 96 m @ $142/m + 12% Contractual OH&P Cap", stat:"-$15,932 SAVED", cost:15932, days:0, act:"Cap OH&P at contractual 12% max and disallow 24m excess waste padding.", gate:"APPROVED"}
+
+    ]
+
+  },
+
+  "construction-cfo-pack": {
+
+    num:"19", name:"Construction CFO Pack", cat:"Schedule + Cost", desc:"Reconciled Excel finance pack.",
+
+    colA:"Earned Value & Budget Baseline", colB:"Actual Cost, WIP & EAC Forecast",
+
+    rows:[
+
+      {id:"CFO-001", sev:"PASS", el:"Project Earned Value Status (BAC = $4,500,000 | M05)", aRef:"PV = $1,980,000 (44.0%)", aVal:"EV = $1,890,000 (42.0%) | AC = $1,785,000", bRef:"CPI = 1.059 | SPI = 0.955", bVal:"CV = +$105,000 (Favorable) | EAC = $4,249,291", stat:"CPI 1.06 / SPI 0.96", cost:105000, days:5, act:"Strong procurement cost performance (+5.9% CPI); expedite GIS shipment.", gate:"APPROVED"},
+
+      {id:"CFO-002", sev:"MAJOR", el:"WIP / Over-Under Billing & Working Capital Cash Flow", aRef:"Certified IPC #04: $1,710,000", aVal:"Earned EV: $1,890,000 | Unbilled WIP: $180,000", bRef:"Net Collected: $1,539,000", bVal:"Cash Deficit vs AC = -$246,000 (10% Retention = $171k)", stat:"$180k UNBILLED WIP", cost:180000, days:0, act:"Bill $180k Transformer Materials-on-Site (MOS) in IPC #05 to turn cash-flow positive.", gate:"HOLD_FOR_LEAD_ENGINEER"}
+
+    ]
+
+  }
+
+};
+
+let currentFilter = "ALL";
+
+let selectedSkill = "spec-vs-drawings";
+
+function setFilter(cat, btn) {
+
+  currentFilter = cat;
+
+  document.querySelectorAll(".filter-group .btn").forEach(b => b.classList.remove("active"));
+
+  btn.classList.add("active");
+
+  renderBoard();
+
+}
+
+function selectSkill(id) {
+
+  selectedSkill = id;
+
+  document.getElementById("setupBanner").className = `setup-card ${id === "project-indexer" ? "selected" : ""}`;
+
+  renderBoard();
+
+  renderWorkbench();
+
+}
+
+function renderBoard() {
+
+  const q = document.getElementById("searchInput").value.toLowerCase();
+
+  const cols = [
+
+    { cat: "Before You Bid", cls: "col-purple" },
+
+    { cat: "Drawings", cls: "col-blue" },
+
+    { cat: "The Model", cls: "col-green" },
+
+    { cat: "Schedule + Cost", cls: "col-teal" }
+
+  ];
+
+  const board = document.getElementById("skillsBoard");
+
+  board.innerHTML = "";
+
+  cols.forEach(c => {
+
+    if (currentFilter !== "ALL" && currentFilter !== c.cat) return;
+
+    const entries = Object.entries(DB).filter(([k, v]) =>
+
+      v.cat === c.cat && (v.name.toLowerCase().includes(q) || v.desc.toLowerCase().includes(q))
+
+    );
+
+    const colEl = document.createElement("div");
+
+    colEl.className = `column ${c.cls}`;
+
+    colEl.innerHTML = `<div class="col-header"><span>● ${c.cat}</span><span>${entries.length}</span></div>`;
+
+    entries.forEach(([id, s]) => {
+
+      const card = document.createElement("div");
+
+      card.className = `skill-card ${id === selectedSkill ? "selected" : ""}`;
+
+      card.onclick = () => selectSkill(id);
+
+      card.innerHTML = `
+
+        <div class="skill-title">
+
+          <span>${s.num}. ${s.name}</span>
+
+          <span class="tag-live">LIVE</span>
+
+        </div>
+
+        <div class="skill-desc">${s.desc}</div>
+
+      `;
+
+      colEl.appendChild(card);
+
+    });
+
+    board.appendChild(colEl);
+
+  });
+
+}
+
+function renderWorkbench() {
+
+  const s = DB[selectedSkill];
+
+  document.getElementById("wbTitle").textContent = `Skill #${s.num}: ${s.name} (${s.cat})`;
+
+  document.getElementById("wbSub").textContent = `${s.desc} — 7-Agent Local Execution (${s.colA} vs ${s.colB})`;
+
+  document.getElementById("agCoord").textContent = `Routed Skill #${s.num}`;
+
+  document.getElementById("agDomA").textContent = `3. ${s.colA.split(" ")[0]} Agent`;
+
+  document.getElementById("agDomB").textContent = `4. ${s.colB.split(" ")[0]} Agent`;
+
+  document.getElementById("agRec").textContent = `${s.rows.length} Checks Audited`;
+
+  document.getElementById("thSourceA").textContent = s.colA;
+
+  document.getElementById("thSourceB").textContent = s.colB;
+
+  const tbody = document.getElementById("findingsBody");
+
+  tbody.innerHTML = "";
+
+  let crit = 0, maj = 0, cost = 0, maxDays = 0, holds = 0, app = 0;
+
+  s.rows.forEach((r, idx) => {
+
+    if (r.sev === "CRITICAL") crit++;
+
+    if (r.sev === "MAJOR") maj++;
+
+    if (r.gate !== "REJECTED") {
+
+      cost += r.cost;
+
+      if (r.days > maxDays) maxDays = r.days;
+
+    }
+
+    if (r.gate === "HOLD_FOR_LEAD_ENGINEER") holds++;
+
+    if (r.gate === "APPROVED") app++;
+
+    const tr = document.createElement("tr");
+
+    tr.innerHTML = `
+
+      <td><strong>${r.id}</strong><br/><span class="sev-badge sev-${r.sev}">${r.sev}</span></td>
+
+      <td><strong>${r.el}</strong></td>
+
+      <td><strong>${r.aRef}</strong><br/>${r.aVal}</td>
+
+      <td><strong>${r.bRef}</strong><br/>${r.bVal}</td>
+
+      <td><strong>${r.stat}</strong><br/>$${r.cost.toLocaleString()} | ${r.days}d</td>
+
+      <td>${r.act}</td>
+
+      <td>
+
+        <select class="gate-select" onchange="updateGate('${selectedSkill}', ${idx}, this.value)">
+
+          <option value="APPROVED" ${r.gate === "APPROVED" ? "selected" : ""}>✓ Approved</option>
+
+          <option value="HOLD_FOR_LEAD_ENGINEER" ${r.gate === "HOLD_FOR_LEAD_ENGINEER" ? "selected" : ""}>⏸ Hold (Lead Eng)</option>
+
+          <option value="REJECTED" ${r.gate === "REJECTED" ? "selected" : ""}>✕ Rejected</option>
+
+        </select>
+
+      </td>
+
+    `;
+
+    tbody.appendChild(tr);
+
+  });
+
+  document.getElementById("kpiCount").textContent = `${s.rows.length} Records`;
+
+  document.getElementById("kpiSev").textContent = `${crit} Crit / ${maj} Major`;
+
+  document.getElementById("kpiCost").textContent = `$${cost.toLocaleString()}`;
+
+  document.getElementById("kpiDays").textContent = `${maxDays} Days`;
+
+  document.getElementById("kpiGate").textContent = `${holds} Hold / ${app} OK`;
+
+  document.getElementById("agGate").textContent = `${holds} Hold / ${app} Signed`;
+
+}
+
+function updateGate(skillId, idx, val) {
+
+  DB[skillId].rows[idx].gate = val;
+
+  renderWorkbench();
+
+}
+
+function approveCurrentSkill() {
+
+  DB[selectedSkill].rows.forEach(r => r.gate = "APPROVED");
+
+  renderWorkbench();
+
+}
+
+function exportCurrentCSV() {
+
+  const s = DB[selectedSkill];
+
+  const headers = ["Skill_ID","Finding_ID","Severity","Element","Source_A_Ref","Source_A_Value","Source_B_Ref","Source_B_Value","Variance_Status","Cost_USD","Schedule_Days","Human_Gate","Recommended_Action"];
+
+  const rows = s.rows.map(r => [
+
+    selectedSkill, r.id, r.sev, `"${r.el}"`, `"${r.aRef}"`, `"${r.aVal}"`, `"${r.bRef}"`, `"${r.bVal}"`, `"${r.stat}"`, r.cost, r.days, r.gate, `"${r.act}"`
+
+  ]);
+
+  download([headers.join(","), ...rows.map(x => x.join(","))].join("\n"), `${selectedSkill}_register.csv`, "text/csv");
+
+}
+
+function exportAll20CSV() {
+
+  const headers = ["Skill_Num","Skill_ID","Skill_Name","Category","Finding_ID","Severity","Element","Source_A_Ref","Source_A_Value","Source_B_Ref","Source_B_Value","Variance_Status","Cost_USD","Schedule_Days","Human_Gate","Recommended_Action"];
+
+  const rows = [];
+
+  Object.entries(DB).forEach(([sid, s]) => {
+
+    s.rows.forEach(r => {
+
+      rows.push([s.num, sid, `"${s.name}"`, `"${s.cat}"`, r.id, r.sev, `"${r.el}"`, `"${r.aRef}"`, `"${r.aVal}"`, `"${r.bRef}"`, `"${r.bVal}"`, `"${r.stat}"`, r.cost, r.days, r.gate, `"${r.act}"`]);
+
+    });
+
+  });
+
+  download([headers.join(","), ...rows.map(x => x.join(","))].join("\n"), "AutoConst_All_20_Skills_Master_Register.csv", "text/csv");
+
+}
+
+function exportCurrentMarkdown() {
+
+  const s = DB[selectedSkill];
+
+  let md = `# Executive Audit Report — Skill #${s.num}: ${s.name} (${s.cat})\n\n`;
+
+  md += `| ID | Severity | Element | ${s.colA} | ${s.colB} | Status / Impact | Action | Gate |\n|---|---|---|---|---|---|---|---|\n`;
+
+  s.rows.forEach(r => {
+
+    md += `| ${r.id} | ${r.sev} | ${r.el} | ${r.aVal} (${r.aRef}) | ${r.bVal} (${r.bRef}) | ${r.stat} ($${r.cost.toLocaleString()}) | ${r.act} | ${r.gate} |\n`;
+
+  });
+
+  download(md, `${selectedSkill}_Executive_Report.md`, "text/markdown");
+
+}
+
+function download(content, filename, mime) {
+
+  const a = document.createElement("a");
+
+  a.href = URL.createObjectURL(new Blob([content], { type: mime }));
+
+  a.download = filename;
+
+  a.click();
+
+}
+
+renderBoard();
+
+renderWorkbench();
+
+</script>
+
+</body>
+
+</html>

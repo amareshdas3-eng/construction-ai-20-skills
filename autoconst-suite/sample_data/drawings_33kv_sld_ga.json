@@ -1,0 +1,89 @@
+{
+  "project_name": "33/11 kV Industrial Receiving Substation & Technical Building EPC Package",
+  "drawing_package": "DWG-PKG-VOL-III",
+  "revision": "Rev B",
+  "date": "2026-03-20",
+  "drawings": [
+    {
+      "drawing_number": "DWG-EL-SLD-001",
+      "revision": "Rev B",
+      "title": "33kV Single Line Diagram (Incoming & Outgoing Bays)",
+      "grid_location": "Grid B4",
+      "element_tag": "SYS-CBL-33KV",
+      "callout_text": "33kV Incomer Feeder No. 1 & 2: 3C x 400 sq.mm Aluminium (Al) Conductor, XLPE Insulated, Steel Wire Armored (SWA), PVC Sheath, Run in Precast Trench.",
+      "parameters": {
+        "conductor_material": "Aluminium (Al)",
+        "cross_section_sqmm": 400,
+        "cores": 3,
+        "insulation": "XLPE",
+        "armoring": "SWA (Steel Wire Armored)"
+      }
+    },
+    {
+      "drawing_number": "DWG-EL-SLD-001",
+      "revision": "Rev B",
+      "title": "33kV Single Line Diagram (Incoming & Outgoing Bays)",
+      "grid_location": "Grid D2",
+      "element_tag": "SWG-33KV-GIS-01",
+      "callout_text": "33kV GIS Incomer Circuit Breaker Bay: Rated Voltage 36kV, Rated Current 1250A, Symmetrical Fault Withstand Rating 25 kA for 1.0 second.",
+      "parameters": {
+        "rated_voltage_kv": 36,
+        "rated_current_a": 1250,
+        "short_circuit_breaking_ka": 25.0,
+        "short_time_withstand_duration_sec": 1.0
+      }
+    },
+    {
+      "drawing_number": "DWG-EL-SLD-002",
+      "revision": "Rev A",
+      "title": "11kV Single Line Diagram & Transformer Incomer",
+      "grid_location": "Grid C6",
+      "element_tag": "TRF-33/11KV-01/02",
+      "callout_text": "15/20 MVA 33/11kV Dyn11 Power Transformer No. 1: 11kV Star Neutral shown connected directly to station earth bus with copper ground bar (Solidly Earthed, No NGR cubicle or link depicted).",
+      "parameters": {
+        "capacity_mva": "15/20 MVA",
+        "vector_group": "Dyn11",
+        "neutral_earthing_type": "Solidly Earthed (No NGR)"
+      }
+    },
+    {
+      "drawing_number": "DWG-EL-PROT-004",
+      "revision": "Rev B",
+      "title": "Substation Automation & Protection Relay Architecture",
+      "grid_location": "Note 7 / Architecture Block",
+      "element_tag": "SAS-PROT-RELAYS",
+      "callout_text": "Note 7: Protection relays shall be multi-dropped using shielded twisted pair Belden cable via RS-485 Modbus RTU serial bus (9600 baud) communicating to Remote Terminal Unit (RTU).",
+      "parameters": {
+        "protocol": "RS-485 Modbus RTU",
+        "interface": "Shielded 2-Wire Twisted Pair",
+        "topology": "Serial Daisy-Chain"
+      }
+    },
+    {
+      "drawing_number": "DWG-EL-GA-009",
+      "revision": "Rev C",
+      "title": "Outdoor Transformer Yard Cable Routing & GA Sections",
+      "grid_location": "Section A-A",
+      "element_tag": "TRAY-OUTDOOR-LADDER",
+      "callout_text": "Cable Tray Detail A-A: 600mm Heavy-Duty Perforated Return Flange Cable Ladder fabricated from Hot-Dip Galvanized Mild Steel (HDGI) minimum coating thickness 85 microns.",
+      "parameters": {
+        "material": "Hot-Dip Galvanized Mild Steel (HDGI)",
+        "coating": "85 microns zinc coating",
+        "application": "Outdoor Transformer Yard Racks"
+      }
+    },
+    {
+      "drawing_number": "DWG-EL-EARTH-001",
+      "revision": "Rev A",
+      "title": "Substation Layout & Equipment Location Plan",
+      "grid_location": "Drawing Index / Title Block",
+      "element_tag": "EARTH-GRID-MAIN",
+      "callout_text": "General Note 3: Substation Main Buried Earthing Grid Layout is documented on Sheet E-104 (DWG-EL-EARTH-104). [Note: Sheet E-104 is omitted from drawing delivery package].",
+      "parameters": {
+        "status": "OMITTED_FROM_PACKAGE",
+        "referenced_sheet": "E-104",
+        "material_shown": "None (Missing Drawing)"
+      }
+    }
+  ]
+}

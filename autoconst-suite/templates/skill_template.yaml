@@ -1,0 +1,117 @@
+# ==============================================================================
+# AutoConst-Local Reusable Construction Skill Template Schema
+# Standard Contract: ID, Metadata, Inputs, Multi-Agent Pipeline, QA & HITL Gates
+# ==============================================================================
+
+version: "1.0.0"
+schema_type: "AutoConstSkillDefinition"
+
+metadata:
+  skill_id: "example-skill-id"          # kebab-case identifier (e.g. spec-vs-drawings)
+  skill_num: "03"                       # 2-digit zero-padded index (00 to 19)
+  skill_name: "Spec vs Drawings Check"  # Human-readable skill title
+  category: "Before You Bid"            # One of: Setup | Before You Bid | Drawings | The Model | Schedule + Cost
+  description: "Cross-checks technical specifications against contract drawing callouts to identify conflicts, omissions, and gold-plating."
+  author: "AutoConst Local Multi-Agent Core"
+  license: "Local Enterprise MIT"
+
+source_configuration:
+  source_a:
+    label: "Specification Requirement"
+    type: "DOCUMENT_SECTION"           # DOCUMENT_SECTION | SCHEDULE_TABLE | BASELINE_XER | BIM_MODEL
+    allowed_formats:
+      - ".json"
+      - ".pdf"
+      - ".txt"
+      - ".csv"
+    required_fields:
+      - "clause_ref"
+      - "element_tag"
+      - "technical_parameters"
+  source_b:
+    label: "Drawing Shown Value"
+    type: "DRAWING_CALLOUT"            # DRAWING_CALLOUT | REVISED_XER | SUBCONTRACT_CLAIM | AS_BUILT
+    allowed_formats:
+      - ".json"
+      - ".dwg"
+      - ".dxf"
+      - ".pdf"
+    required_fields:
+      - "drawing_number"
+      - "grid_location"
+      - "element_tag"
+      - "observed_parameters"
+
+agent_pipeline:
+  stages:
+    - stage_id: 1
+      agent: "CoordinatorAgent"
+      role: "Workflow router, state tracker, and run audit log initializer."
+      deterministic: true
+
+    - stage_id: 2
+      agent: "DocumentExtractionAgent"
+      role: "Parses and normalizes raw input texts, tables, and tags into structured JSON entities."
+      deterministic: true
+
+    - stage_id: 3
+      agent: "SourceAAnalysisAgent"
+      role: "Extracts primary baseline criteria, tolerances, grades, and compliance requirements."
+      deterministic: true
+
+    - stage_id: 4
+      agent: "SourceBAnalysisAgent"
+      role: "Extracts secondary comparison data, callout notes, and geometric schedules."
+      deterministic: true
+
+    - stage_id: 5
+      agent: "DiscrepancyResolutionAgent"
+      role: "Domain-specific rule engine for variance calculation, cost impact, and schedule delta."
+      deterministic: true
+      severity_rules:
+        CRITICAL: "Safety hazard, tender non-compliance risk, or direct cost exposure >= $40,000"
+        MAJOR: "Physical clash, missing deliverable, or cost exposure between $10,000 and $39,999"
+        MINOR: "Editorial ambiguity, drawing annotation typo, or cost exposure < $10,000"
+        PASS: "Exact alignment between Source A and Source B within engineering tolerance"
+
+    - stage_id: 6
+      agent: "QualityAssuranceAgent"
+      role: "Citation and traceability validator. Verifies 100% clause and drawing sheet proof."
+      minimum_qa_score_pct: 100.0
+      block_on_hallucination: true
+
+    - stage_id: 7
+      agent: "HumanApprovalGate"
+      role: "HITL sign-off gate for Lead Project Engineer review."
+      policy:
+        auto_hold_critical: true
+        auto_hold_major: false
+        allowed_actions:
+          - "APPROVE"
+          - "REJECT"
+          - "HOLD_FOR_LEAD_ENGINEER"
+
+    - stage_id: 8
+      agent: "ReportingAgent"
+      role: "Multi-format exporter generating CSV registers, JSON master dumps, and Markdown RFIs."
+      output_formats:
+        - "CSV"
+        - "JSON"
+        - "MARKDOWN_RFI"
+
+finding_record_contract:
+  fields:
+    finding_id: "Unique string (e.g., DSC-001)"
+    skill_id: "String matching metadata.skill_id"
+    severity: "CRITICAL | MAJOR | MINOR | PASS"
+    element_or_ref: "Equipment or system tag description"
+    source_a_ref: "Document clause citation"
+    source_a_value: "Clause requirement text"
+    source_b_ref: "Drawing sheet and grid citation"
+    source_b_value: "Drawing callout text"
+    variance_or_status: "Variance classification"
+    cost_impact_usd: "Float cost estimate"
+    schedule_impact_days: "Integer critical path days"
+    recommended_action: "Actionable RFI or engineering direction"
+    qa_verified: "Boolean citation integrity check"
+    human_gate_status: "APPROVED | REJECTED | HOLD_FOR_LEAD_ENGINEER"

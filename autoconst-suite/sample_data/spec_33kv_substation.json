@@ -1,0 +1,93 @@
+{
+  "project_name": "33/11 kV Industrial Receiving Substation & Technical Building EPC Package",
+  "document_id": "SPEC-EL-33KV-001",
+  "revision": "Rev 0",
+  "date": "2026-03-15",
+  "sections": [
+    {
+      "section_id": "04.2.1",
+      "page": 42,
+      "title": "33kV Underground Power Feeder Cables",
+      "element_tag": "SYS-CBL-33KV",
+      "clause_text": "All incoming 33kV main power feeders from the utility grid connection to the 33kV GIS switchgear incomer bays shall be 3-core 400 sq.mm annealed compacted Copper (Cu) conductor, cross-linked polyethylene (XLPE) insulated, extruded semi-conducting screen, metallic screen, corrugated aluminium sheath, and extruded flame-retardant low-smoke zero-halogen (LSZH/FR) outer sheath rated 19/33(36) kV complying with IEC 60502-2. Aluminium conductors are strictly prohibited for primary 33kV grid feeders.",
+      "parameters": {
+        "conductor_material": "Copper (Cu)",
+        "cross_section_sqmm": 400,
+        "cores": 3,
+        "insulation": "XLPE",
+        "sheath": "Corrugated Aluminium Sheath + LSZH Outer",
+        "voltage_grade_kv": "19/33(36) kV",
+        "standard": "IEC 60502-2"
+      }
+    },
+    {
+      "section_id": "05.1.4",
+      "page": 68,
+      "title": "33kV Medium-Voltage Gas-Insulated Switchgear (GIS)",
+      "element_tag": "SWG-33KV-GIS-01",
+      "clause_text": "The 33kV indoor gas-insulated switchgear (GIS) assembly, including main busbars, vacuum circuit breakers, disconnectors, and earth switches, shall have a certified short-time symmetrical fault withstand rating of not less than 31.5 kA RMS for 3 seconds duration, with a peak withstand capability of 82 kA complying with IEC 62271-200. Internal arc classification shall be IAC AFLR 31.5 kA for 1 second.",
+      "parameters": {
+        "rated_voltage_kv": 36,
+        "short_circuit_breaking_ka": 31.5,
+        "short_time_withstand_duration_sec": 3.0,
+        "peak_withstand_ka": 82.0,
+        "internal_arc_rating": "IAC AFLR 31.5kA 1s",
+        "standard": "IEC 62271-200"
+      }
+    },
+    {
+      "section_id": "06.3.2",
+      "page": 91,
+      "title": "15/20 MVA 33/11kV Power Transformers Neutral Earthing",
+      "element_tag": "TRF-33/11KV-01/02",
+      "clause_text": "Each 15/20 MVA 33/11kV power transformer shall have vector group Dyn11 with the 11kV secondary neutral brought out through a turret CT and connected to an outdoor Neutral Grounding Resistor (NGR) cubicle rated to limit single phase-to-ground fault current to 400 A for a duration of 10 seconds. NGR cubicle shall be IP55, stainless steel AISI 304, fitted with current transformer and neutral disconnect link.",
+      "parameters": {
+        "capacity_mva": "15/20 MVA ONAN/ONAF",
+        "vector_group": "Dyn11",
+        "neutral_earthing_type": "Neutral Grounding Resistor (NGR)",
+        "ngr_current_rating_a": 400,
+        "ngr_time_duration_sec": 10,
+        "cubicle_ip_rating": "IP55 SS304"
+      }
+    },
+    {
+      "section_id": "07.4.1",
+      "page": 112,
+      "title": "Numerical Protection Relays Communication Architecture",
+      "element_tag": "SAS-PROT-RELAYS",
+      "clause_text": "All feeder, transformer, busbar, and bay controller numerical relays shall support native IEC 61850 Edition 2 communications featuring dual optical Ethernet ports running Parallel Redundancy Protocol (PRP) in a zero-loss seamless fiber optic ring architecture directly to station SAS servers.",
+      "parameters": {
+        "protocol": "IEC 61850 Edition 2",
+        "interface": "Dual Optical 100Base-FX Fiber Ports",
+        "redundancy": "PRP (Parallel Redundancy Protocol)",
+        "topology": "Zero-Loss Dual Fiber Ring"
+      }
+    },
+    {
+      "section_id": "08.1.9",
+      "page": 130,
+      "title": "Outdoor Cable Containment Ladder System",
+      "element_tag": "TRAY-OUTDOOR-LADDER",
+      "clause_text": "All outdoor cable containment ladders and structural supports between the transformer yard and the technical building shall be manufactured from marine-grade AISI SS316L stainless steel to resist ambient industrial salt-fog chemical corrosion.",
+      "parameters": {
+        "material": "AISI SS316L Stainless Steel (Marine Grade)",
+        "coating": "Uncoated Passivated Marine Grade SS",
+        "application": "Outdoor Transformer Yard & Yard Racks"
+      }
+    },
+    {
+      "section_id": "09.2.1",
+      "page": 145,
+      "title": "Main Substation Buried Earth Grid Conductor",
+      "element_tag": "EARTH-GRID-MAIN",
+      "clause_text": "The main perimeter and internal substation buried earth grid shall consist of 75 mm x 10 mm high-conductivity annealed tinned copper tape buried at 800 mm below finished grade, interconnected with exothermic welds complying with IEEE Std 80.",
+      "parameters": {
+        "conductor_size": "75 x 10 mm",
+        "material": "Annealed Tinned Copper Tape",
+        "depth_mm": 800,
+        "jointing": "Exothermic Welds",
+        "standard": "IEEE Std 80"
+      }
+    }
+  ]
+}
