@@ -52,7 +52,7 @@ Stamps + bulk drawing edits. This playbook cross-checks **Target Drawing & Coord
 
 - **ID:** `MRK-002` | **Severity:** `PASS`
   - **Element / Ref:** All 22 Tender PDFs (Title Block Stamp Area [1020, 740, 1160, 790])
-  - **Target Drawing & Coordinate Box:** Apply Blue Watermark Stamp: `TENDER REVIEW SET - CHECKED BY AUTOCONST` *(Batch Tender Control Stamp)*
+  - **Target Drawing & Coordinate Box:** Apply Blue Watermark Stamp: `TENDER REVIEW SET - CHECKED BY PROENGINEERING` *(Batch Tender Control Stamp)*
   - **PyMuPDF Batch Redline Action:** 22/22 Sheets queued with non-destructive PDF annotation layer *(PyMuPDF Batch Script)*
   - **Variance:** `BATCH QUEUED` | **Financial Impact:** $0.00 | **Schedule Delta:** 0 Days
   - **Recommended Action:** Zero manual PDF editing required.

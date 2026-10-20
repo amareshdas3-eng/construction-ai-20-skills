@@ -30,7 +30,7 @@ from orchestrator import (
     SKILLS_REGISTRY
 )
 
-class TestAutoConstLocalSuite(unittest.TestCase):
+class TestProEngineeringLocalSuite(unittest.TestCase):
 
     def setUp(self):
         self.orchestrator = MultiAgentOrchestrator(non_interactive=True)
@@ -212,7 +212,7 @@ class TestAutoConstLocalSuite(unittest.TestCase):
 
         with open(tpl_path, "r", encoding="utf-8") as f:
             tpl_text = f.read()
-            self.assertIn("AutoConstSkillDefinition", tpl_text)
+            self.assertIn("ProEngineeringSkillDefinition", tpl_text)
             self.assertIn("agent_pipeline", tpl_text)
 
 if __name__ == "__main__":

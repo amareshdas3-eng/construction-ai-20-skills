@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-AutoConst-Local: Zero-Budget, Local-First Multi-Agent Construction AI Suite
+ProEngineering-Local: Zero-Budget, Local-First Multi-Agent Construction AI Suite
 Coordinator + 7 Specialized Agents + Terminal Human-In-The-Loop (HITL) Sign-Off Gates
 Fully Worked Workflow: Spec vs. Drawings Check (33/11 kV Industrial Substation)
 100% Python Standard Library | Zero Paid APIs | Zero Cloud Dependencies
@@ -518,7 +518,7 @@ class ReportingAgent:
             )
         lines.append("")
         lines.append("---")
-        lines.append("*Generated 100% locally by AutoConst Multi-Agent Orchestrator.*")
+        lines.append("*Generated 100% locally by ProEngineering Multi-Agent Orchestrator.*")
 
         with open(filepath, "w", encoding="utf-8") as f:
             f.write("\n".join(lines))
@@ -633,7 +633,7 @@ class MultiAgentOrchestrator:
 # ==============================================================================
 
 def main():
-    parser = argparse.ArgumentParser(description="AutoConst Local Multi-Agent Construction AI Suite")
+    parser = argparse.ArgumentParser(description="ProEngineering Local Multi-Agent Construction AI Suite")
     parser.add_argument("--non-interactive", action="store_true", help="Bypass interactive terminal HITL prompts (safe auto-hold for critical)")
     parser.add_argument("--spec", type=str, default="sample_data/spec_33kv_substation.json", help="Path to technical specification JSON")
     parser.add_argument("--drawings", type=str, default="sample_data/drawings_33kv_sld_ga.json", help="Path to drawing schedule/notes JSON")
@@ -649,14 +649,14 @@ def main():
 
     if args.all or args.export_all:
         print("=" * 80)
-        print(" AUTOCONST LOCAL MULTI-AGENT SUITE: RUNNING ALL 20 CONSTRUCTION SKILLS")
+        print(" PROENGINEERING LOCAL MULTI-AGENT SUITE: RUNNING ALL 20 CONSTRUCTION SKILLS")
         print("=" * 80)
         all_results = orchestrator.run_all_20_skills()
         for sid, d in all_results.items():
             print(f" [{d['skill_num']}] {d['skill_name']:<28} | {d['category']:<15} | Findings: {d['total_findings']} | QA: {d['qa_score']}% | Gate Holds: {d['hold_for_human_count']}")
 
         # Export master CSV
-        out_csv = "autoconst_all_20_skills_master.csv"
+        out_csv = "proengineering_all_20_skills_master.csv"
         rows = []
         for s in all_results.values():
             for f in s["findings"]:
@@ -673,7 +673,7 @@ def main():
 
     # Default Workflow: Spec vs Drawings Check
     print("=" * 80)
-    print(" AUTOCONST-LOCAL MULTI-AGENT ORCHESTRATOR: SPEC VS. DRAWINGS CHECK")
+    print(" PROENGINEERING-LOCAL MULTI-AGENT ORCHESTRATOR: SPEC VS. DRAWINGS CHECK")
     print(" 33/11 kV Industrial Receiving Substation EPC Package")
     print(f" Mode: {'Non-Interactive (Autonomous Safety Gates)' if is_non_interactive else 'Interactive Human-in-the-Loop (HITL)'}")
     print("=" * 80)

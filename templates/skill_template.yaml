@@ -1,10 +1,10 @@
 # ==============================================================================
-# AutoConst-Local Reusable Construction Skill Template Schema
+# ProEngineering-Local Reusable Construction Skill Template Schema
 # Standard Contract: ID, Metadata, Inputs, Multi-Agent Pipeline, QA & HITL Gates
 # ==============================================================================
 
 version: "1.0.0"
-schema_type: "AutoConstSkillDefinition"
+schema_type: "ProEngineeringSkillDefinition"
 
 metadata:
   skill_id: "example-skill-id"          # kebab-case identifier (e.g. spec-vs-drawings)
@@ -12,7 +12,7 @@ metadata:
   skill_name: "Spec vs Drawings Check"  # Human-readable skill title
   category: "Before You Bid"            # One of: Setup | Before You Bid | Drawings | The Model | Schedule + Cost
   description: "Cross-checks technical specifications against contract drawing callouts to identify conflicts, omissions, and gold-plating."
-  author: "AutoConst Local Multi-Agent Core"
+  author: "ProEngineering Local Multi-Agent Core"
   license: "Local Enterprise MIT"
 
 source_configuration:

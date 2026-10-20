@@ -13,4 +13,4 @@
 | **DSC-006** | `MAJOR` | Main Substation Buried Earth Grid Conductor | 75 x 10 mm Annealed Tinned Copper Tape (*Sec 09.2.1 (P.145)*) | Omitted from Layout Drawings (Missing Sheet E-104) (*[MISSING FROM DRAWING SET] (Omitted Sheet E-104)*) | $29,800.00 | 5 Days | RFI-006: Issue missing Earthing Layout E-104 and confirm Copper vs GI strip. | **APPROVED** |
 
 ---
-*Generated 100% locally by AutoConst Multi-Agent Orchestrator.*
+*Generated 100% locally by ProEngineering Multi-Agent Orchestrator.*

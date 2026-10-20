@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-AutoConst Enterprise Master Orchestrator — All 20 Construction Skills Executed Locally
+ProEngineering Enterprise Master Orchestrator — All 20 Construction Skills Executed Locally
 Zero-Budget | 100% Python Standard Library | Full 7-Agent Architecture + Human Sign-Off Gates
 Project Context: 33/11 kV Industrial Receiving Substation & Technical Building EPC Package
 """
@@ -185,7 +185,7 @@ SKILLS_REGISTRY: Dict[str, Dict] = {
         "source_b_label": "PyMuPDF Batch Redline Action",
         "findings": [
             FindingRecord("MRK-001", "pdf-markup", "PASS", "DWG-EL-SLD-001.pdf (Page 1, Rect [410, 220, 580, 290])", "Grid B4 & D2 Conflict Zones", "Apply Red Revision Cloud + Callout Box `RFI-001 & RFI-002 HOLD`", "PyMuPDF Batch Script", "Stamped 'HOLD - SPEC DISCREPANCY' + Red Cloud around 33kV Busbar & Feeder Notes", "STAMP SCRIPT READY", 0, 0, "Run generated `apply_markups.py` to batch-stamp all 22 PDF sheets.", True, "APPROVED"),
-            FindingRecord("MRK-002", "pdf-markup", "PASS", "All 22 Tender PDFs (Title Block Stamp Area [1020, 740, 1160, 790])", "Batch Tender Control Stamp", "Apply Blue Watermark Stamp: `TENDER REVIEW SET - CHECKED BY AUTOCONST`", "PyMuPDF Batch Script", "22/22 Sheets queued with non-destructive PDF annotation layer", "BATCH QUEUED", 0, 0, "Zero manual PDF editing required.", True, "APPROVED")
+            FindingRecord("MRK-002", "pdf-markup", "PASS", "All 22 Tender PDFs (Title Block Stamp Area [1020, 740, 1160, 790])", "Batch Tender Control Stamp", "Apply Blue Watermark Stamp: `TENDER REVIEW SET - CHECKED BY PROENGINEERING`", "PyMuPDF Batch Script", "22/22 Sheets queued with non-destructive PDF annotation layer", "BATCH QUEUED", 0, 0, "Zero manual PDF editing required.", True, "APPROVED")
         ]
     },
     "bim-scorecard": {
@@ -351,7 +351,7 @@ class MasterMultiAgentOrchestrator:
     def run_all_20_skills(self) -> Dict[str, Dict]:
         return {skill_id: self.run_skill(skill_id) for skill_id in SKILLS_REGISTRY}
 
-    def export_all_to_csv(self, filepath: str = "autoconst_all_20_skills_register.csv") -> str:
+    def export_all_to_csv(self, filepath: str = "proengineering_all_20_skills_register.csv") -> str:
         all_results = self.run_all_20_skills()
         rows = []
         for res in all_results.values():
@@ -376,7 +376,7 @@ if __name__ == "__main__":
     elif "--export-all" in sys.argv:
         out_csv = orch.export_all_to_csv()
         all_res = orch.run_all_20_skills()
-        out_json = "autoconst_all_20_skills_master.json"
+        out_json = "proengineering_all_20_skills_master.json"
         with open(out_json, "w", encoding="utf-8") as jf:
             json.dump(all_res, jf, indent=2)
         print(f"Exported: {out_csv} + {out_json}")
@@ -384,7 +384,7 @@ if __name__ == "__main__":
         all_res = orch.run_all_20_skills()
         out_csv = orch.export_all_to_csv()
         print("=" * 80)
-        print(" AUTOCONST MASTER MULTI-AGENT SUITE — ALL 20 SKILLS EXECUTED LOCALLY")
+        print(" PROENGINEERING MASTER MULTI-AGENT SUITE — ALL 20 SKILLS EXECUTED LOCALLY")
         print("=" * 80)
         for sid, data in all_res.items():
             print(
